@@ -1,0 +1,36 @@
+<html>
+<h1>Websocket Example</h1>
+<pre>Please see the source code and use developer tools to see what is going on (js console)!</pre>
+<script>
+  //connect to server on port 8001
+  //protocol: ws ... unsecure
+  //protocol: wss ... secure
+  let socket = new WebSocket("ws://localhost:8001");
+
+  socket.onopen = function (e) {
+    const message = `world`;
+    console.log("[onopen] connection established");
+    socket.send(message);
+    console.log(`[onopen] sent message: ${message}`);
+  };
+
+  socket.onmessage = function (event) {
+    console.log(`[onmessage] received: ${event.data}`);
+  };
+
+  socket.onclose = function (event) {
+    if (event.wasClean) {
+      console.log(`[onclose] connection closed cleanly, code=${event.code} reason=${event.reason}`);
+    } else {
+      // e.g. server process killed or network down
+      // event.code is usually 1006 in this case
+      console.log(`[onclose] connection closed, code=${event.code}`);
+    }
+  };
+
+  socket.onerror = function (error) {
+    console.log(`[onerror] error message: ${error.message}`);
+  };
+</script>
+
+</html>
